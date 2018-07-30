@@ -51,6 +51,7 @@ while True:
 	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 
 	wet = get_status()
+	pump.off()
 	if wet:
 		print("turning on")
 	    pump.on()

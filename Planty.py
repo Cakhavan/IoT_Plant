@@ -32,8 +32,10 @@ def publish_callback(result, status):
 
 def get_status():
 	if soil.is_pressed:
+		print("dry")
 		return False
 	else:
+		print("wet")
 		return True
 
 

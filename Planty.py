@@ -28,7 +28,7 @@ pin = 17
 #Soil Moisture sensor is connected to GPIO14 as a button
 soil = Button(14)
 
-switch = 2
+switch = 1
 
 
 class MySubscribeCallback(SubscribeCallback):

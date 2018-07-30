@@ -53,6 +53,19 @@ while True:
 
 	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 	print(DHT_Read)
+	pubnub.publish().channel('ch1').message([DHT_Read]).async(publish_callback)
+
+ pubnub.publish({
+    channel: 'ch1',
+    message: {
+      eon: {
+        'Temp/Hum': DHT_Read
+      }
+    }
+  });
+
+
+
 	wet = get_status()
 	
 	if wet == True:

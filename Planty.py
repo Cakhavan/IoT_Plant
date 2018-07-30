@@ -60,3 +60,5 @@ while True:
 	    sleep(5)
 	    pump.off()
 	    sleep(1)
+	else:
+		pump.off()

@@ -28,6 +28,8 @@ pin = 17
 #Soil Moisture sensor is connected to GPIO14 as a button
 soil = Button(14)
 
+flag = 0
+
 pump.on()
 
 class MySubscribeCallback(SubscribeCallback):
@@ -80,9 +82,9 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         if message.message == 'ON':
-        	run()
+        	flag = 1
         elif message.message == 'OFF':
-			stop()
+			flag = 0
         elif message.message == 'WATER':
         	pump.off()
         	sleep(5)
@@ -102,33 +104,26 @@ def get_status():
 		return False
 
 
-def stop():
-	while True:
-		pump.on()
-		sleep(1)
+while flag == 1:
 
-def run():
+	# Try to grab a sensor reading.  Use the read_retry method which will retry up
+	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
+	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+	print(DHT_Read)
+	pubnub.publish().channel('ch2').message([DHT_Read])
 
-	while True:
+
+	wet = get_status()
 	
-		# Try to grab a sensor reading.  Use the read_retry method which will retry up
-		# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-		DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-		print(DHT_Read)
-		pubnub.publish().channel('ch2').message([DHT_Read])
+	if wet == True:
+	    print("turning on")
+	    pump.off()
+	    sleep(5)
+	    print("pump turning off")
+	    pump.on()
+	    sleep(1)
+	else:
+	    pump.on()
 
-
-		wet = get_status()
-		
-		if wet == True:
-		    print("turning on")
-		    pump.off()
-		    sleep(5)
-		    print("pump turning off")
-		    pump.on()
-		    sleep(1)
-		else:
-		    pump.on()
-
-		sleep(1)
+	sleep(1)

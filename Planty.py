@@ -129,3 +129,4 @@ while flag == 1:
 	    pump.on()
 
 	sleep(1)
+while flag == 0:

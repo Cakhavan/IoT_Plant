@@ -30,6 +30,7 @@ soil = Button(14)
 
 switch = 2
 
+pump.odd()
 
 class MySubscribeCallback(SubscribeCallback):
     def status(self, pubnub, status):
@@ -93,12 +94,6 @@ class MySubscribeCallback(SubscribeCallback):
 pubnub.add_listener(MySubscribeCallback())
 pubnub.subscribe().channels('ch1').execute()
 
-
-
-def publish_callback(result, status):
-    pass
-    # Handle PNPublishResult and PNStatus
- 
 
 def get_status():
 	if soil.is_held:

@@ -115,7 +115,7 @@ humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
 #pump.off turns it off
 
-while switch == 1:
+while True:
 	
 	# Try to grab a sensor reading.  Use the read_retry method which will retry up
 	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).

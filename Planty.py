@@ -1,6 +1,6 @@
 import sys
 import Adafruit_DHT
-from gpiozero import LED
+from gpiozero import LED, Button
 from time import sleep
 
 

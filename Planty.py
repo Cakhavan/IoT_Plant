@@ -106,27 +106,29 @@ def get_status():
 		return False
 
 
-while flag == 1:
+while True:
+	if flag ==1:
+		# Try to grab a sensor reading.  Use the read_retry method which will retry up
+		# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
+		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+		DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+		print(DHT_Read)
+		pubnub.publish().channel('ch2').message([DHT_Read])
 
-	# Try to grab a sensor reading.  Use the read_retry method which will retry up
-	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-	print(DHT_Read)
-	pubnub.publish().channel('ch2').message([DHT_Read])
 
+		wet = get_status()
+		
+		if wet == True:
+		    print("turning on")
+		    pump.off()
+		    sleep(5)
+		    print("pump turning off")
+		    pump.on()
+		    sleep(1)
+		else:
+		    pump.on()
 
-	wet = get_status()
-	
-	if wet == True:
-	    print("turning on")
-	    pump.off()
-	    sleep(5)
-	    print("pump turning off")
-	    pump.on()
-	    sleep(1)
-	else:
-	    pump.on()
-
-	sleep(1)
-while flag == 0:
+		sleep(1)
+	elif flag == 0:
+		pump.on()
+		sleep(3)

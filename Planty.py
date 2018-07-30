@@ -103,10 +103,10 @@ def publish_callback(result, status):
 def get_status():
 	if soil.is_held:
 		print("dry")
-		return False
+		return True
 	else:
 		print("wet")
-		return True
+		return False
 
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up

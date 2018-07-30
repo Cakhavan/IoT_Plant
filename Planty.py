@@ -32,9 +32,9 @@ def publish_callback(result, status):
 
 def get_status():
 	if soil.is_pressed:
-		return True
-	else:
 		return False
+	else:
+		return True
 
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up

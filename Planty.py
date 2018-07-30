@@ -53,7 +53,7 @@ while True:
 	wet = get_status()
 	pump.off()
 	if wet:
-		print("turning on")
+	print("turning on")
 	    pump.on()
 	    sleep(5)
 	    pump.off()

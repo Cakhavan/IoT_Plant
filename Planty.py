@@ -28,8 +28,6 @@ pin = 17
 #Soil Moisture sensor is connected to GPIO14 as a button
 soil = Button(14)
 
-switch = 1
-
 pump.on()
 
 class MySubscribeCallback(SubscribeCallback):
@@ -82,11 +80,9 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         if message.message == 'ON':
-        	switch = 1
+        	run()
         elif message.message == 'OFF':
-        	print(switch)
-		switch = 0
-		print(switch)
+			stop()
         elif message.message == 'WATER':
         	pump.off()
         	sleep(5)
@@ -106,33 +102,34 @@ def get_status():
 		return False
 
 
-# Try to grab a sensor reading.  Use the read_retry method which will retry up
-# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+def stop():
+	while True:
+		pump.on()
+		sleep(1)
 
-#pump.off turns it off
+def run():
 
-while switch == 1:
+	while True:
 	
-	# Try to grab a sensor reading.  Use the read_retry method which will retry up
-	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-	print(switch)
-	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-	print(DHT_Read)
-	pubnub.publish().channel('ch1').message([DHT_Read])
+		# Try to grab a sensor reading.  Use the read_retry method which will retry up
+		# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
+		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+		print(switch)
+		DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+		print(DHT_Read)
+		pubnub.publish().channel('ch1').message([DHT_Read])
 
 
-	wet = get_status()
-	
-	if wet == True:
-	    print("turning on")
-	    pump.off()
-	    sleep(5)
-	    print("pump turning off")
-	    pump.on()
-	    sleep(1)
-	else:
-	    pump.on()
+		wet = get_status()
+		
+		if wet == True:
+		    print("turning on")
+		    pump.off()
+		    sleep(5)
+		    print("pump turning off")
+		    pump.on()
+		    sleep(1)
+		else:
+		    pump.on()
 
-	sleep(1)
+		sleep(1)

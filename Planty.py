@@ -32,11 +32,11 @@ def publish_callback(result, status):
 
 def get_status():
 	if soil.is_pressed:
-		print("wet")
-		return True
-	else:
 		print("dry")
 		return False
+	else:
+		print("wet")
+		return True
 
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
@@ -62,3 +62,5 @@ while True:
 	    print("pump turning off")
 	    pump.on()
 	    sleep(1)
+	else:
+	    pump.on()

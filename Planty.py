@@ -113,7 +113,7 @@ while True:
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 		DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 		print(DHT_Read)
-		pubnub.publish().channel('ch2').message([DHT_Read])
+		pubnub.publish().channel('ch1').message([DHT_Read])
 
 
 		wet = get_status()

@@ -32,19 +32,19 @@ def publish_callback(result, status):
 
 def get_status():
 	if soil.is_pressed:
-		print("dry")
-		return False
-	else:
 		print("wet")
 		return True
+	else:
+		print("dry")
+		return False
 
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
 # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
-while True:
-	pump.off()
+#pump.off turns it off
+
 while True:
 	
 	# Try to grab a sensor reading.  Use the read_retry method which will retry up
@@ -53,7 +53,7 @@ while True:
 
 	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 
-	dry = get_status()
+	wet = get_status()
 	
 	if wet == True:
 	    print("turning on")
@@ -62,5 +62,3 @@ while True:
 	    print("pump turning off")
 	    pump.on()
 	    sleep(1)
-	else:
-		pump.on()

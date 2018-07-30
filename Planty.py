@@ -56,9 +56,9 @@ while True:
 	
 	if wet == True:
 	    print("turning on")
-	    pump.on()
-	    sleep(5)
 	    pump.off()
+	    sleep(5)
+	    pump.on()
 	    sleep(1)
 	else:
-		pump.off()
+		pump.on()

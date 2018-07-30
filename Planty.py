@@ -90,8 +90,8 @@ class MySubscribeCallback(SubscribeCallback):
         	pump.on()
  
  
-# pubnub.add_listener(MySubscribeCallback())
-# pubnub.subscribe().channels('ch1').execute()
+pubnub.add_listener(MySubscribeCallback())
+pubnub.subscribe().channels('ch1').execute()
 
 
 

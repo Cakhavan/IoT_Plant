@@ -82,8 +82,10 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         if message.message == 'ON':
+        	global flag
         	flag = 1
         elif message.message == 'OFF':
+			global flag
 			flag = 0
         elif message.message == 'WATER':
         	pump.off()

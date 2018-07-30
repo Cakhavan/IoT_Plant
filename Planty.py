@@ -114,7 +114,6 @@ def run():
 		# Try to grab a sensor reading.  Use the read_retry method which will retry up
 		# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-		print(switch)
 		DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 		print(DHT_Read)
 		pubnub.publish().channel('ch1').message([DHT_Read])

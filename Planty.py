@@ -28,7 +28,7 @@ pin = 17
 #Soil Moisture sensor is connected to GPIO14 as a button
 soil = Button(14)
 
-flag = 0
+flag = 1
 
 pump.on()
 

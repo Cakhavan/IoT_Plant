@@ -28,9 +28,9 @@ pin = 17
 #Soil Moisture sensor is connected to GPIO14 as a button
 soil = Button(14)
 
-switch = 2
+switch = 1
 
-pump.odd()
+pump.on()
 
 class MySubscribeCallback(SubscribeCallback):
     def status(self, pubnub, status):
@@ -84,7 +84,9 @@ class MySubscribeCallback(SubscribeCallback):
         if message.message == 'ON':
         	switch = 1
         elif message.message == 'OFF':
-        	switch = 0
+        	print(switch)
+		switch = 0
+		print(switch)
         elif message.message == 'WATER':
         	pump.off()
         	sleep(5)
@@ -115,10 +117,10 @@ while switch == 1:
 	# Try to grab a sensor reading.  Use the read_retry method which will retry up
 	# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-
+	print(switch)
 	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 	print(DHT_Read)
-	pubnub.publish().channel('ch1').message([DHT_Read]).async(publish_callback)
+	pubnub.publish().channel('ch1').message([DHT_Read])
 
 
 	wet = get_status()

@@ -55,16 +55,6 @@ while True:
 	print(DHT_Read)
 	pubnub.publish().channel('ch1').message([DHT_Read]).async(publish_callback)
 
- pubnub.publish({
-    channel: 'ch1',
-    message: {
-      eon: {
-        'Temp/Hum': DHT_Read
-      }
-    }
-  });
-
-
 
 	wet = get_status()
 	

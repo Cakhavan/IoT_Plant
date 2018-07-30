@@ -43,7 +43,8 @@ def get_status():
 # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
-
+while True:
+	pump.off()
 while True:
 	
 	# Try to grab a sensor reading.  Use the read_retry method which will retry up
@@ -52,12 +53,13 @@ while True:
 
 	DHT_Read = ('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 
-	wet = get_status()
+	dry = get_status()
 	
 	if wet == True:
 	    print("turning on")
 	    pump.off()
 	    sleep(5)
+	    print("pump turning off")
 	    pump.on()
 	    sleep(1)
 	else:

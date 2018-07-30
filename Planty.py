@@ -74,7 +74,10 @@ class MySubscribeCallback(SubscribeCallback):
         else:
             pass
             # Encountered unknown status type
-    
+ 
+    def presence(self, pubnub, presence):
+        pass  # handle incoming presence data
+ 
     def message(self, pubnub, message):
         print(message);
  

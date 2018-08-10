@@ -1,3 +1,10 @@
+ IoT automated plant irrigation system with real-time vital analytics. Powered by PubNub.
+ 
+ 
+ 
+ 
+ 
+ 
  <a href="https://dashboard.pubnub.com/signup?devrel_gh=Cakhavan/PubNubStateMachine">
     <img alt="PubNub Signup" src="https://i.imgur.com/og5DDjf.png" width=260 height=97/>
 </a>

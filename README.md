@@ -7,6 +7,7 @@
 - Add your environment variables to the `.env` file
 - Install project dependancies with `pip install -r requirements.txt`
 - Run the Raspberry Pi script with `python Planty.py`
+- Update `plant.html` with your pub/sub key values
 - View the client web page with `open plant.html`
  
  

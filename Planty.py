@@ -3,6 +3,15 @@ import Adafruit_DHT
 from gpiozero import LED, Button
 from time import sleep
 
+from os import getenv
+from os.path import join, dirname
+from dotenv import load_dotenv
+ 
+# Create .env file path.
+dotenv_path = join(dirname(__file__), '.env')
+  
+# Load file from the path.
+load_dotenv(dotenv_path)
 
 import pubnub
 from pubnub.pnconfiguration import PNConfiguration
@@ -12,25 +21,25 @@ from pubnub.enums import PNOperationType, PNStatusCategory
 
  
 pnconfig = PNConfiguration()
-pnconfig.subscribe_key = "sub-c-a667485c-757f-11e8-9f59-fec9626a7085"
-pnconfig.publish_key = "pub-c-cb2e18e3-a8b0-486a-bf82-2d9e9f670b7e"
+pnconfig.subscribe_key = getenv('SUB_KEY') 
+pnconfig.publish_key = getenv('PUB_KEY')
 pnconfig.ssl = False
  
 pubnub = PubNub(pnconfig)
 
 #Pump is connected to GPIO4 as an LED
-pump = LED(4)
+pump = LED(int(getenv('PUMP_PIN')))
 
 #DHT Sensor is connected to GPIO17
 sensor = 22
-pin = 17
+pin = int(getenv('TEMP_PIN'))
 
 #Soil Moisture sensor is connected to GPIO14 as a button
-soil = Button(14)
+soil = Button(int(getenv('SOIL_PIN')))
 
 flag = 1
 
-pump.on()
+pump.off()
 
 class MySubscribeCallback(SubscribeCallback):
     def status(self, pubnub, status):
@@ -82,15 +91,13 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         if message.message == 'ON':
-        	global flag
-        	flag = 1
+            flag = 1
         elif message.message == 'OFF':
-			global flag
-			flag = 0
+            flag = 0
         elif message.message == 'WATER':
-        	pump.off()
-        	sleep(5)
-        	pump.on()
+            pump.on()
+            sleep(5)
+            pump.off()
  
  
 pubnub.add_listener(MySubscribeCallback())
@@ -109,7 +116,7 @@ def get_status():
 
 
 while True:
-	if flag ==1:
+	if flag == 1:
 		# Try to grab a sensor reading.  Use the read_retry method which will retry up
 		# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
@@ -124,15 +131,15 @@ while True:
 		
 		if wet == True:
 		    print("turning on")
-		    pump.off()
+		    pump.on()
 		    sleep(5)
 		    print("pump turning off")
-		    pump.on()
+		    pump.off()
 		    sleep(1)
 		else:
-		    pump.on()
+		    pump.off()
 
 		sleep(1)
 	elif flag == 0:
-		pump.on()
+		pump.off()
 		sleep(3)

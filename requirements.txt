@@ -1,0 +1,4 @@
+pubnub
+Adafruit_DHT
+gpiozero
+python-dotenv

@@ -1,4 +1,5 @@
 pubnub
 Adafruit_DHT
 gpiozero
+rpi.gpio
 python-dotenv

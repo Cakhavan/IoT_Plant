@@ -91,8 +91,10 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         if message.message == 'ON':
+            global auto
             auto = True
         elif message.message == 'OFF':
+            global auto
             auto = False
         elif message.message == 'WATER':
             # Manually trigger watering

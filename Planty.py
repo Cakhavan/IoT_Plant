@@ -126,11 +126,7 @@ def publish_callback(result, status):
 
 def soil_is_dry():
     print("Checking Soil. Value: {}".format(soil.is_pressed))
-    if soil.is_pressed:
-        # Moisture sensor will return 1 when wet
-        return True
-    else:
-        return False
+    return soil.is_pressed
 
 while True:
         if auto:

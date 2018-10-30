@@ -105,8 +105,10 @@ class MySubscribeCallback(SubscribeCallback):
     def message(self, pubnub, message):
         print("Handling Message")
         if message.message == 'ON':
+            global auto
             auto = True
         elif message.message == 'OFF':
+            global auto
             auto = False
         elif message.message == 'WATER':
             # Manually trigger watering
@@ -123,12 +125,12 @@ def publish_callback(result, status):
 
 
 def soil_is_dry():
-    print("Checking Soil")
-    if soil.is_held:
+    print("Checking Soil. Value: {}".format(soil.is_pressed))
+    if soil.is_pressed:
         # Moisture sensor will return 1 when wet
-        return False
-    else:
         return True
+    else:
+        return False
 
 while True:
         if auto:
@@ -143,9 +145,9 @@ while True:
             dictionary = {"eon": {"Temperature": temperature,
                                   "Humidity": humidity}}
             pubnub.publish().channel('ch2').message([DHT_Read]).\
-                meta({'test': 'meta'}).async(publish_callback)
+                pn_async(publish_callback)
             pubnub.publish().channel("eon-chart").message(dictionary).\
-                meta({'test': 'meta'}).async(publish_callback)
+                pn_async(publish_callback)
 
             if soil_is_dry():
                 print("Turning pump on")
